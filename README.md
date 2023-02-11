@@ -3,6 +3,7 @@ MonPrimeur est une application web créer avec ASP.NET Core Razor Pages et Entit
 Il permet de gérer le stock de fruits avec un système de CRUD
 # Technologies utilisées  
 Visual studio 2022  
+C# 11
 .NET 6  
 Projet ASP.NET Core 6  
 Razor pages
