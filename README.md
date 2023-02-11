@@ -1,10 +1,20 @@
 # MonPrimeur  
 MonPrimeur est une application web créer avec ASP.NET Core Razor Pages et Entity Framework Core    
-  
+Il permet de gérer le stock de fruits avec un système de CRUD
+# Technologies utilisées  
 Visual studio 2022  
 .NET 6  
 Projet ASP.NET Core 6  
 Razor pages
+# Le projet
+- créer une application Web à l’aide de Visual Studio et à configurer leurs fichiers et leurs dépendances.    
+- Utiliser des contrôles Razor    
+  - intégration des contrôles Razor dans les pages Razor     
+  - incorporer des fonctionnalités telles que des formulaires, des listes et des pages de navigation.    
+- Implémentation de CRUD    
+  - créer des opérations CRUD (create, read, update, delete) à l’aide de modèles et de contrôles Razor.    
+
+
 #
 Razor Pages est basé sur le modèle de vue-contrôleur (MVC).    
 Il repose sur le même principe que MVC, mais le flux de contrôle est centré sur les pages plutôt que sur les actions.    
