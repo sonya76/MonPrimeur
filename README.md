@@ -15,12 +15,13 @@ Razor pages
   - créer des opérations CRUD (create, read, update, delete) à l’aide de modèles et de contrôles Razor.    
 
 
-#
+# Razor Pages
 Razor Pages est basé sur le modèle de vue-contrôleur (MVC).    
 Il repose sur le même principe que MVC, mais le flux de contrôle est centré sur les pages plutôt que sur les actions.    
 Les pages sont des classes qui gèrent les requêtes HTTP et qui définissent le modèle d'affichage à utiliser pour afficher le résultat.    
 Les pages sont associées à des vues qui définissent le modèle d'affichage à utiliser pour afficher le résultat.
-#
+    
+# Gestion d'authentification HTTPS 
 Configurer pour HTTPS 
 Gestion d'authentification : comptes individuels pour l'inscription et la connexion    
 
@@ -30,14 +31,17 @@ Les dépendances comprennent :
   - EntityFrameworkCore.SqlServer
 - packages concernant l'authentification :    
   - AspNetCore.Identity.EntityFrameworkCore (6.0.4)    
-  - AspNetCore.Identity.UI (6.0.4)   
-
+  - AspNetCore.Identity.UI (6.0.4)    
+       
+# appsettings.json
 le fichier appsettings.json qui comporte des constantes pour l'application tel que :    
 la constante ConnectionStrings qui permettra de gerer la configuration de connexion à la base de données.    
  "ConnectionStrings": {    
     "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=mon-primeur; ..."    
- 
-- le fichier Program.cs : il y a le Buider qui permet d'ajouter des services    
+     
+# Program.cs
+Le fichier Program.cs contient :    
+Le Builder qui permet d'ajouter des services    
 on retrouve :    
 - connectionString    
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");    
