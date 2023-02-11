@@ -11,7 +11,7 @@ public class Image
     
     [NotMapped]
     [Display(Name = "Image")]
-    public IFormFile File { get; set; }
+    public IFormFile? File { get; set; }
     public int FruitId { get; set; }
     public virtual Fruit? Fruit { get; set; }
 }

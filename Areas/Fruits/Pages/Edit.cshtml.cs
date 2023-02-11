@@ -30,12 +30,12 @@ namespace MonPrimeur.Areas.Fruits.Pages
                 return NotFound();
             }
 
-            var fruit =  await _context.Fruits.FirstOrDefaultAsync(m => m.Id == id);
-            if (fruit == null)
+            Fruit =  await _context.Fruits.Include(f => f.Image).FirstOrDefaultAsync(m => m.Id == id);
+
+            if (Fruit == null)
             {
                 return NotFound();
             }
-            Fruit = fruit;
             return Page();
         }
 
