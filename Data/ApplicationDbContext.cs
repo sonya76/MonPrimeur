@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using MonPrimeur.Models;
 
 namespace MonPrimeur.Data
 {
@@ -9,5 +10,7 @@ namespace MonPrimeur.Data
             : base(options)
         {
         }
+        public DbSet<Fruit> Fruits { get; set; }
+        public DbSet<Image> Images { get; set; }
     }
 }
