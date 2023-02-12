@@ -8,16 +8,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MonPrimeur.Data;
 using MonPrimeur.Models;
+using MonPrimeur.Services;
 
 namespace MonPrimeur.Areas.Fruits.Pages
 {
     public class EditModel : PageModel
     {
-        private readonly MonPrimeur.Data.ApplicationDbContext _context;
+        private readonly MonPrimeur.Data.ApplicationDbContext ctx;
+        private readonly ImageService imageService;
 
-        public EditModel(MonPrimeur.Data.ApplicationDbContext context)
+        public EditModel(MonPrimeur.Data.ApplicationDbContext ctx, ImageService imageService)
         {
-            _context = context;
+            this.ctx = ctx;
+            this.imageService = imageService;
         }
 
         [BindProperty]
@@ -25,53 +28,60 @@ namespace MonPrimeur.Areas.Fruits.Pages
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Fruits == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            Fruit =  await _context.Fruits.Include(f => f.Image).FirstOrDefaultAsync(m => m.Id == id);
+            Fruit = await ctx.Fruits
+                .Include(f => f.Image)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (Fruit == null)
-            {
                 return NotFound();
-            }
+
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            var fruitToUpdate = await ctx.Fruits
+                .Include(f =>f.Image)
+                .FirstOrDefaultAsync(f => f.Id == id);
 
-            _context.Attach(Fruit).State = EntityState.Modified;
+            if (fruitToUpdate == null)
+                return NotFound();
 
-            try
+            var uploadedImage = Fruit.Image;
+
+            if(null!= uploadedImage)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FruitExists(Fruit.Id))
+                uploadedImage = await imageService.UploadAsync(uploadedImage);
+
+                if (fruitToUpdate.Image != null)
                 {
-                    return NotFound();
+                    imageService.DeleteUploadedFile(fruitToUpdate.Image);
+                    fruitToUpdate.Image.Name = uploadedImage.Name;
+                    fruitToUpdate.Image.Path = uploadedImage.Path;
                 }
                 else
-                {
-                    throw;
-                }
+                    fruitToUpdate.Image = uploadedImage;
             }
 
-            return RedirectToPage("./Index");
+            if (await TryUpdateModelAsync(fruitToUpdate, "fruit", f => f.Name, f => f.Description, f => f.Prix))
+            {
+                await ctx.SaveChangesAsync();
+
+                return RedirectToPage("./Index");
+            }
+
+            return Page();
         }
 
         private bool FruitExists(int id)
         {
-          return _context.Fruits.Any(e => e.Id == id);
+          return ctx.Fruits.Any(e => e.Id == id);
         }
     }
 }
